@@ -2,9 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { connectDB } from './config/db.js';
-import { errorHandler } from './middleware/errorHandler.js';
-import authRoutes from './routes/auth.js';
-import taskRoutes from './routes/tasks.js';
+import { errorHandler } from './middleware/errorHandler.middleware.js';
+import authRoutes from './routes/auth.route.js';
+import taskRoutes from './routes/tasks.route.js';
 
 dotenv.config();
 

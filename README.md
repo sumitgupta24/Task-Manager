@@ -1,17 +1,17 @@
-# 📋 MERN Stack Task Management Application
+# MERN Stack Task Management Application
 
 A complete, production-ready task management web application built with the MERN stack (MongoDB, Express.js, React, Node.js). Features JWT authentication, real-time task management, analytics dashboard, and a beautiful dark mode UI.
 
-## 🎯 Key Features
+## Key Features
 
-### ✅ Authentication
+### Authentication
 - User registration with validation
 - Secure JWT-based login
 - Password hashing with bcryptjs
 - Protected API routes
 - Auto-logout support
 
-### ✅ Task Management (Full CRUD)
+### Task Management (Full CRUD)
 - Create, read, update, and delete tasks
 - Task status tracking (Todo, In Progress, Done)
 - Priority levels (Low, Medium, High)
@@ -19,13 +19,13 @@ A complete, production-ready task management web application built with the MERN
 - one-click task completion
 - Task notes/comments with timestamps
 
-### ✅ Filtering & Search
+### Filtering & Search
 - Live search by task title (debounced)
 - Filter by status and priority
 - Combined filtering support
 - Clear filters button
 
-### ✅ Analytics Dashboard
+### Analytics Dashboard
 - Task statistics cards (Total, Completed, Pending, Overdue)
 - Pie chart - Tasks by Status
 - Bar chart - Tasks by Priority
@@ -33,7 +33,7 @@ A complete, production-ready task management web application built with the MERN
 - Overdue task tracking
 - Due today indicator
 
-### ✅ UI/UX Features
+### UI/UX Features
 - Dark mode toggle (persistent)
 - Fully responsive design (mobile + desktop)
 - Loading spinners
@@ -44,7 +44,7 @@ A complete, production-ready task management web application built with the MERN
 - Color-coded priority and status badges
 - Overdue task highlighting
 
-### ✅ Bonus Features
+### Bonus Features
 - Task activity log tracking
 - Task notes/comments system
 - Overdue indicators with badges
@@ -52,29 +52,29 @@ A complete, production-ready task management web application built with the MERN
 - URL query parameter state management
 - Beautiful animations and transitions
 
-## 🔧 Tech Stack
+## Tech Stack
 
 ### Backend
-- **Node.js** - Runtime environment
-- **Express.js** - Web framework
-- **MongoDB** - NoSQL database
-- **Mongoose** - ODM library
-- **JWT** - Authentication
-- **bcryptjs** - Password hashing
-- **CORS** - Cross-origin requests
-- **express-validator** - Input validation
+- Node.js - Runtime environment
+- Express.js - Web framework
+- MongoDB - NoSQL database
+- Mongoose - ODM library
+- JWT - Authentication
+- bcryptjs - Password hashing
+- CORS - Cross-origin requests
+- express-validator - Input validation
 
 ### Frontend
-- **React 18** - UI library
-- **Vite** - Build tool
-- **Tailwind CSS** - Styling
-- **React Router DOM** - Routing
-- **Axios** - HTTP client
-- **Recharts** - Data visualization
-- **React Hot Toast** - Notifications
-- **Lucide React** - Icons
+- React 18 - UI library
+- Vite - Build tool
+- Tailwind CSS - Styling
+- React Router DOM - Routing
+- Axios - HTTP client
+- Recharts - Data visualization
+- React Hot Toast - Notifications
+- Lucide React - Icons
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Task Management/
@@ -82,18 +82,18 @@ Task Management/
 │   ├── config/
 │   │   └── db.js
 │   ├── controllers/
-│   │   ├── authController.js
-│   │   └── taskController.js
+│   │   ├── auth.controller.js
+│   │   └── task.controller.js
 │   ├── middleware/
-│   │   ├── auth.js
-│   │   └── errorHandler.js
+│   │   ├── auth.middleware.js
+│   │   └── errorHandler.middleware.js
 │   ├── models/
-│   │   ├── User.js
-│   │   ├── Task.js
-│   │   └── TaskActivity.js
+│   │   ├── user.model.js
+│   │   ├── task.model.js
+│   │   └── taskActivity.model.js
 │   ├── routes/
-│   │   ├── auth.js
-│   │   └── tasks.js
+│   │   ├── auth.route.js
+│   │   └── tasks.route.js
 │   ├── .env
 │   ├── package.json
 │   └── server.js
@@ -128,7 +128,7 @@ Task Management/
     └── postcss.config.js
 ```
 
-## ⚙️ Setup Instructions
+## Setup Instructions
 
 ### Prerequisites
 - Node.js (v14 or higher)
@@ -137,17 +137,17 @@ Task Management/
 
 ### Backend Setup
 
-1. **Navigate to backend folder:**
+### 1. Navigate to backend folder:
    ```bash
    cd backend
    ```
 
-2. **Install dependencies:**
+2. Install dependencies:
    ```bash
    npm install
    ```
 
-3. **Configure environment variables (.env):**
+3. Configure environment variables (.env):
    ```
    PORT=5000
    MONGO_URI=mongodb://localhost:27017/task-management
@@ -156,7 +156,7 @@ Task Management/
    NODE_ENV=development
    ```
 
-4. **Start the server:**
+4. Start the server:
    ```bash
    npm run dev
    ```
@@ -164,28 +164,28 @@ Task Management/
 
 ### Frontend Setup
 
-1. **Navigate to frontend folder:**
+1. Navigate to frontend folder:
    ```bash
    cd frontend
    ```
 
-2. **Install dependencies:**
+2. Install dependencies:
    ```bash
    npm install
    ```
 
-3. **Configure environment variables (.env):**
+3. Configure environment variables (.env):
    ```
    VITE_API_URL=http://localhost:5000/api
    ```
 
-4. **Start the development server:**
+4. Start the development server:
    ```bash
    npm run dev
    ```
    The application will open at `http://localhost:3000`
 
-## 📚 API Endpoints
+## API Endpoints
 
 | Method | Route | Description | Auth Required |
 |--------|-------|-------------|----------------|
@@ -202,49 +202,49 @@ Task Management/
 | GET | `/api/tasks/analytics` | Get analytics data | Yes |
 | GET | `/api/tasks/overdue` | Get overdue tasks | Yes |
 
-## 🎨 Design Decisions
+## Design Decisions
 
-### 1. **JWT Authentication**
+### 1. JWT Authentication
 - Stateless authentication for scalability
 - Tokens stored in localStorage for persistence
 - Automatic token refresh via interceptors
 - Secure logout with token removal
 
-### 2. **MongoDB Indexing**
+### 2. MongoDB Indexing
 - Indexes on `user`, `status`, `priority`, and `dueDate` fields
 - Optimizes query performance for common filters
 - Improves search efficiency for large datasets
 
-### 3. **React Context API**
+### 3. React Context API
 - Centralized authentication state management
 - Eliminates prop drilling
 - Simple implementation without additional libraries
 - Excellent for this app's scale
 
-### 4. **Pagination**
+### 4. Pagination
 - 10 tasks per page for better UX
 - Reduces initial load time
 - Improves app responsiveness
 - Query parameter state preservation
 
-### 5. **Debounced Search**
+### 5. Debounced Search
 - 300ms delay prevents excessive API calls
 - Better performance with live search
 - Smoother user experience
 
-### 6. **Dark Mode**
+### 6. Dark Mode
 - localStorage persistence
 - Tailwind's dark mode utility classes
 - Smooth transitions
 - System preference detection optional
 
-### 7. **Error Handling**
+### 7. Error Handling
 - Global error middleware in Express
 - Consistent JSON error responses
 - Client-side toast notifications
 - Form validation on both frontend and backend
 
-## 🗄️ Database Schema
+## Database Schema
 
 ### User Model
 ```javascript
@@ -286,7 +286,7 @@ Task Management/
 }
 ```
 
-## 🚀 Building for Production
+## Building for Production
 
 ### Backend
 ```bash
@@ -304,25 +304,25 @@ npm run build
 # Serve the dist folder
 ```
 
-## 🔒 Security Features
+## Security Features
 
-- **JWT Authentication** - Secure token-based authentication
-- **Password Hashing** - bcryptjs with salt rounds
-- **CORS Protection** - Configured for frontend origin
-- **Input Validation** - express-validator on backend, client-side validation
-- **Error Handling** - No sensitive information in errors
-- **Environment Variables** - No hardcoded secrets
+- JWT Authentication - Secure token-based authentication
+- Password Hashing - bcryptjs with salt rounds
+- CORS Protection - Configured for frontend origin
+- Input Validation - express-validator on backend, client-side validation
+- Error Handling - No sensitive information in errors
+- Environment Variables - No hardcoded secrets
 
-## 📊 Performance Optimizations
+## Performance Optimizations
 
-- **Database Indexes** - Optimized query performance
-- **Pagination** - Prevents loading too many tasks
-- **Debounced Search** - Reduces API calls
-- **Component Code Splitting** - Lazy loading with React Router
-- **Tailwind CSS Purging** - Optimized CSS in production
-- **Compression** - gzip compression ready
+- Database Indexes - Optimized query performance
+- Pagination - Prevents loading too many tasks
+- Debounced Search - Reduces API calls
+- Component Code Splitting - Lazy loading with React Router
+- Tailwind CSS Purging - Optimized CSS in production
+- Compression - gzip compression ready
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Backend Connection Issues
 - Check MongoDB connection string
@@ -341,7 +341,7 @@ npm run build
 - Refresh page
 - Check browser dev tools for errors
 
-## 📝 Future Enhancements
+## Future Enhancements
 
 - Email notifications for due tasks
 - Task templates
@@ -354,18 +354,18 @@ npm run build
 - Export to CSV/PDF
 - Advanced analytics
 
-## 📄 License
+## License
 
 This project is open source and available for educational and commercial use.
 
-## 👨‍💻 Contributing
+## Contributing
 
 Feel free to fork, modify, and use this project as a foundation for your own applications.
 
-## 📞 Support
+## Support
 
 For issues and questions, create an issue in the repository or contact the developers.
 
 ---
 
-**Made with ❤️ using MERN Stack**
+Made with love using MERN Stack

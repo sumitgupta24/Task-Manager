@@ -1,11 +1,11 @@
-# 🚀 Quick Start Guide
+# Quick Start Guide
 
 ## Prerequisites
 - Node.js v14+
 - MongoDB (local or Atlas)
 - npm or yarn
 
-## 1️⃣ Backend Setup (Terminal 1)
+## Backend Setup (Terminal 1)
 
 ```bash
 cd backend
@@ -24,7 +24,7 @@ JWT_EXPIRES_IN=7d
 NODE_ENV=development
 ```
 
-## 2️⃣ Frontend Setup (Terminal 2)
+## Frontend Setup (Terminal 2)
 
 ```bash
 cd frontend
@@ -39,14 +39,14 @@ App will open at `http://localhost:3000`
 VITE_API_URL=http://localhost:5000/api
 ```
 
-## ✅ Verify Installation
+## Verify Installation
 
 1. Register a new user at `http://localhost:3000/register`
 2. Login with your credentials
 3. Create your first task
 4. Check Dashboard and Analytics
 
-## 📚 Available Scripts
+## Available Scripts
 
 ### Backend
 - `npm run dev` - Start development server with nodemon
@@ -56,20 +56,20 @@ VITE_API_URL=http://localhost:5000/api
 - `npm run dev` - Start Vite dev server
 - `npm run build` - Build for production
 
-## 🔥 Features to Test
+## Features to Test
 
-✅ Create/Edit/Delete tasks
-✅ Search and filter tasks
-✅ Mark tasks as complete
-✅ Add task notes
-✅ View activity history
-✅ Check analytics dashboard
-✅ Toggle dark mode
-✅ Mobile responsiveness
-✅ Task pagination
-✅ Due date highlighting
+- Create/Edit/Delete tasks
+- Search and filter tasks
+- Mark tasks as complete
+- Add task notes
+- View activity history
+- Check analytics dashboard
+- Toggle dark mode
+- Mobile responsiveness
+- Task pagination
+- Due date highlighting
 
-## 🆘 Troubleshooting
+## Troubleshooting
 
 **Backend won't start**
 - Check if port 5000 is in use
@@ -86,6 +86,6 @@ VITE_API_URL=http://localhost:5000/api
 - Check connection string in .env
 - If using MongoDB Atlas, whitelist your IP
 
-## 📚 Full Documentation
+## Full Documentation
 
 See [README.md](./README.md) for complete documentation.

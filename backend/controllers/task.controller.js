@@ -1,7 +1,7 @@
 import { validationResult } from 'express-validator';
 import mongoose from 'mongoose';
-import Task from '../models/Task.js';
-import TaskActivity from '../models/TaskActivity.js';
+import Task from '../models/task.model.js';
+import TaskActivity from '../models/taskActivity.model.js';
 
 export const getTasks = async (req, res, next) => {
   try {

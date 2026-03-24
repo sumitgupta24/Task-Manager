@@ -1,6 +1,6 @@
 import express from 'express';
 import { body } from 'express-validator';
-import { protect } from '../middleware/auth.js';
+import { protect } from '../middleware/auth.middleware.js';
 import {
   getTasks,
   createTask,
@@ -12,7 +12,7 @@ import {
   getOverdueTasks,
   addTaskNote,
   deleteTaskNote,
-} from '../controllers/taskController.js';
+} from '../controllers/task.controller.js';
 
 const router = express.Router();
 
