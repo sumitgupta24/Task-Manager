@@ -11,22 +11,35 @@ export const AuthProvider = ({ children }) => {
 
   // Check if user is already authenticated
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const savedUser = localStorage.getItem('user');
+    const verifyToken = async () => {
+      const token = localStorage.getItem('token');
+      const savedUser = localStorage.getItem('user');
 
-    if (token && savedUser) {
-      try {
-        setUser(JSON.parse(savedUser));
-        setAuthenticated(true);
-      } catch (error) {
-        // Invalid JSON stored, clear it
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        setUser(null);
-        setAuthenticated(false);
+      if (token && savedUser) {
+        try {
+          // Set header globally FIRST before making any call
+          api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+          const response = await api.get('/auth/verify');
+
+          if (response.data.success) {
+            setUser(JSON.parse(savedUser));
+            setAuthenticated(true);
+          } else {
+            throw new Error('Token verification failed');
+          }
+        } catch (error) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          delete api.defaults.headers.common['Authorization'];
+          setUser(null);
+          setAuthenticated(false);
+        }
       }
-    }
-    setLoading(false);
+      setLoading(false);
+    };
+
+    verifyToken();
   }, []);
 
   const register = useCallback(async (name, email, password) => {
@@ -38,10 +51,10 @@ export const AuthProvider = ({ children }) => {
         password,
       });
 
-      const { data: userData, token } = response.data.data;
+      const { user: userData, token } = response.data.data;
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(userData));
-
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       setUser(userData);
       setAuthenticated(true);
       toast.success('Registration successful!');
@@ -61,10 +74,10 @@ export const AuthProvider = ({ children }) => {
       setLoading(true);
       const response = await api.post('/auth/login', { email, password });
 
-      const { data: userData, token } = response.data.data;
+      const { user: userData, token } = response.data.data;
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(userData));
-
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       setUser(userData);
       setAuthenticated(true);
       toast.success('Login successful!');
@@ -82,6 +95,7 @@ export const AuthProvider = ({ children }) => {
   const logout = useCallback(() => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    delete api.defaults.headers.common['Authorization'];
     setUser(null);
     setAuthenticated(false);
     toast.success('Logged out successfully!');
