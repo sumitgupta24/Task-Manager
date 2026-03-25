@@ -1,4 +1,9 @@
-# MERN Stack Task Management Application
+# TaskFlow — Task Management System
+
+### Developed by: Sumit Gupta
+### Assignment: Full Stack Mini Project
+
+---
 
 A complete, production-ready task management web application built with the MERN stack (MongoDB, Express.js, React, Node.js). Features JWT authentication, real-time task management, analytics dashboard, and a beautiful dark mode UI.
 
@@ -16,7 +21,7 @@ A complete, production-ready task management web application built with the MERN
 - Task status tracking (Todo, In Progress, Done)
 - Priority levels (Low, Medium, High)
 - Due date management
-- one-click task completion
+- One-click task completion
 - Task notes/comments with timestamps
 
 ### Filtering & Search

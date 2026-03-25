@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Mail, Lock } from 'lucide-react';
+import { Mail, Lock, Loader } from 'lucide-react';
 
 export default function Login() {
   const [formData, setFormData] = useState({
-    email: '',
+    email: 'sumitgupta@gmail.com',
     password: '',
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = 'Login | TaskFlow';
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -54,68 +58,78 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-white dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <div className="bg-white rounded-lg shadow-xl p-8">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-8">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-800">Login</h1>
-            <p className="text-gray-600 mt-2">Welcome back to your task manager</p>
+            <div className="inline-flex items-center justify-center w-12 h-12 bg-indigo-600 text-white rounded-lg mb-3">
+              <span className="text-xl font-bold">✓</span>
+            </div>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Welcome Back</h1>
+            <p className="text-gray-600 dark:text-gray-400 mt-2 text-sm">Sign in to TaskFlow to manage your tasks</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-3 text-gray-400" size={20} />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" size={18} />
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="your@email.com"
+                  placeholder="sumitgupta@gmail.com"
                   className="input-field pl-10"
                 />
               </div>
               {errors.email && (
-                <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                <p className="text-red-600 dark:text-red-400 text-sm mt-2">{errors.email}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-3 text-gray-400" size={20} />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" size={18} />
                 <input
                   type="password"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  placeholder="••••••"
+                  placeholder="••••••••"
                   className="input-field pl-10"
                 />
               </div>
               {errors.password && (
-                <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+                <p className="text-red-600 dark:text-red-400 text-sm mt-2">{errors.password}</p>
               )}
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full btn-primary flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'Logging in...' : 'Login'}
+              {loading ? (
+                <>
+                  <Loader size={18} className="animate-spin" />
+                  Signing in...
+                </>
+              ) : (
+                'Sign In'
+              )}
             </button>
           </form>
 
-          <p className="text-center text-gray-600 mt-6">
+          <p className="text-center text-gray-600 dark:text-gray-400 mt-6 text-sm">
             Don't have an account?{' '}
-            <Link to="/register" className="text-blue-600 hover:underline font-medium">
-              Register here
+            <Link to="/register" className="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">
+              Create one
             </Link>
           </p>
         </div>

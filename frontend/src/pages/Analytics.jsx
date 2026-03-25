@@ -8,6 +8,10 @@ export default function Analytics() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    document.title = 'Analytics | TaskFlow';
+  }, []);
+
+  useEffect(() => {
     const fetchAnalytics = async () => {
       try {
         const response = await api.get('/tasks/analytics');
@@ -25,16 +29,16 @@ export default function Analytics() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
       </div>
     );
   }
 
   if (!analytics) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-8">
         <div className="container text-center py-12">
-          <p className="text-gray-500">Failed to load analytics</p>
+          <p className="text-gray-600 dark:text-gray-400">Failed to load analytics</p>
         </div>
       </div>
     );
@@ -42,7 +46,7 @@ export default function Analytics() {
 
   const COLORS = {
     'Todo': '#9ca3af',
-    'In Progress': '#3b82f6',
+    'In Progress': '#4F46E5',
     'Done': '#10b981',
     'Low': '#10b981',
     'Medium': '#f59e0b',
@@ -73,35 +77,35 @@ export default function Analytics() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-8">
       <div className="container">
-        <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-100 mb-8">Analytics</h1>
+        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-8">Analytics</h1>
 
         {/* Summary Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <div className="card p-6">
-            <p className="text-gray-600 dark:text-gray-400 text-sm">Total Tasks</p>
-            <p className="text-3xl font-bold text-blue-600">{analytics.total}</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="card">
+            <p className="text-gray-600 dark:text-gray-400 text-sm font-medium">Total Tasks</p>
+            <p className="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mt-1">{analytics.total}</p>
           </div>
-          <div className="card p-6">
-            <p className="text-gray-600 dark:text-gray-400 text-sm">Completed</p>
-            <p className="text-3xl font-bold text-green-600">{analytics.completed}</p>
+          <div className="card">
+            <p className="text-gray-600 dark:text-gray-400 text-sm font-medium">Completed</p>
+            <p className="text-3xl font-bold text-green-600 dark:text-green-400 mt-1">{analytics.completed}</p>
           </div>
-          <div className="card p-6">
-            <p className="text-gray-600 dark:text-gray-400 text-sm">Pending</p>
-            <p className="text-3xl font-bold text-yellow-600">{analytics.pending}</p>
+          <div className="card">
+            <p className="text-gray-600 dark:text-gray-400 text-sm font-medium">Pending</p>
+            <p className="text-3xl font-bold text-yellow-600 dark:text-yellow-400 mt-1">{analytics.pending}</p>
           </div>
-          <div className="card p-6">
-            <p className="text-gray-600 dark:text-gray-400 text-sm">Completion Rate</p>
-            <p className="text-3xl font-bold text-purple-600">{analytics.completionPercentage}%</p>
+          <div className="card">
+            <p className="text-gray-600 dark:text-gray-400 text-sm font-medium">Completion Rate</p>
+            <p className="text-3xl font-bold text-purple-600 dark:text-purple-400 mt-1">{analytics.completionPercentage}%</p>
           </div>
         </div>
 
         {/* Charts Row 1 */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Status Distribution */}
-          <div className="card p-6">
-            <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-6">Status Distribution</h2>
+          <div className="card">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Status Distribution</h2>
             {statusData.length > 0 ? (
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
@@ -123,29 +127,29 @@ export default function Analytics() {
                 </PieChart>
               </ResponsiveContainer>
             ) : (
-              <p className="text-gray-500 text-center">No data available</p>
+              <p className="text-gray-500 dark:text-gray-400 text-center">No data available</p>
             )}
           </div>
 
           {/* Priority Distribution */}
-          <div className="card p-6">
-            <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-6">Priority Distribution</h2>
+          <div className="card">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Priority Distribution</h2>
             {priorityData.length > 0 ? (
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={priorityData}>
-                  <CartesianGrid strokeDasharray="3 3" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                   <XAxis dataKey="name" />
                   <YAxis />
                   <Tooltip />
-                  <Bar dataKey="value" fill="#3b82f6" radius={[8, 8, 0, 0]}>
+                  <Bar dataKey="value" fill="#4F46E5" radius={[8, 8, 0, 0]}>
                     {priorityData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[entry.name] || '#3b82f6'} />
+                      <Cell key={`cell-${index}`} fill={COLORS[entry.name] || '#4F46E5'} />
                     ))}
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
             ) : (
-              <p className="text-gray-500 text-center">No data available</p>
+              <p className="text-gray-500 dark:text-gray-400 text-center">No data available</p>
             )}
           </div>
         </div>
@@ -153,8 +157,8 @@ export default function Analytics() {
         {/* Charts Row 2 */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Completion Status */}
-          <div className="card p-6">
-            <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-6">Completion Status</h2>
+          <div className="card">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Completion Status</h2>
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
@@ -176,28 +180,28 @@ export default function Analytics() {
           </div>
 
           {/* Summary Table */}
-          <div className="card p-6">
-            <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-6">Summary</h2>
+          <div className="card">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Summary</h2>
             <div className="space-y-4">
               <div className="flex justify-between items-center pb-4 border-b border-gray-200 dark:border-gray-700">
-                <span className="text-gray-600 dark:text-gray-400">Total Tasks</span>
-                <span className="text-2xl font-bold text-gray-800 dark:text-gray-100">{analytics.total}</span>
+                <span className="text-gray-600 dark:text-gray-400 font-medium">Total Tasks</span>
+                <span className="text-2xl font-bold text-gray-900 dark:text-white">{analytics.total}</span>
               </div>
               <div className="flex justify-between items-center pb-4 border-b border-gray-200 dark:border-gray-700">
-                <span className="text-gray-600 dark:text-gray-400">Completed Tasks</span>
-                <span className="text-2xl font-bold text-green-600">{analytics.completed}</span>
+                <span className="text-gray-600 dark:text-gray-400 font-medium">Completed</span>
+                <span className="text-2xl font-bold text-green-600 dark:text-green-400">{analytics.completed}</span>
               </div>
               <div className="flex justify-between items-center pb-4 border-b border-gray-200 dark:border-gray-700">
-                <span className="text-gray-600 dark:text-gray-400">Pending Tasks</span>
-                <span className="text-2xl font-bold text-yellow-600">{analytics.pending}</span>
+                <span className="text-gray-600 dark:text-gray-400 font-medium">Pending</span>
+                <span className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">{analytics.pending}</span>
               </div>
               <div className="flex justify-between items-center pb-4 border-b border-gray-200 dark:border-gray-700">
-                <span className="text-gray-600 dark:text-gray-400">Overdue Tasks</span>
-                <span className="text-2xl font-bold text-red-600">{analytics.overdue}</span>
+                <span className="text-gray-600 dark:text-gray-400 font-medium">Overdue</span>
+                <span className="text-2xl font-bold text-red-600 dark:text-red-400">{analytics.overdue}</span>
               </div>
               <div className="flex justify-between items-center pt-2">
-                <span className="text-gray-600 dark:text-gray-400">Completion Rate</span>
-                <span className="text-2xl font-bold text-blue-600">{analytics.completionPercentage}%</span>
+                <span className="text-gray-600 dark:text-gray-400 font-medium">Completion Rate</span>
+                <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{analytics.completionPercentage}%</span>
               </div>
             </div>
           </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { formatDate } from '../utils/helpers';
-import { X, Plus, Trash2 } from 'lucide-react';
+import { X, Plus, Trash2, Loader } from 'lucide-react';
 import formatDateForInput from '../utils/dateFormatter';
 
 export default function TaskModal({ task, isOpen, onClose, onSave, onAddNote, onDeleteNote }) {
@@ -12,6 +12,7 @@ export default function TaskModal({ task, isOpen, onClose, onSave, onAddNote, on
     dueDate: '',
   });
   const [noteText, setNoteText] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (task) {
@@ -39,9 +40,14 @@ export default function TaskModal({ task, isOpen, onClose, onSave, onAddNote, on
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSave(formData);
+    setIsSubmitting(true);
+    try {
+      await onSave(formData);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleAddNote = () => {
@@ -55,34 +61,35 @@ export default function TaskModal({ task, isOpen, onClose, onSave, onAddNote, on
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="sticky top-0 flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
             {task ? 'Edit Task' : 'New Task'}
           </h2>
           <button
             onClick={onClose}
             className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition"
+            title="Close"
           >
-            <X size={24} />
+            <X size={24} className="text-gray-600 dark:text-gray-400" />
           </button>
         </div>
 
         {/* Content */}
         <div className="p-6 space-y-6">
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Title *
+                Title <span className="text-red-600">*</span>
               </label>
               <input
                 type="text"
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
-                placeholder="Task title..."
+                placeholder="e.g., Complete API documentation"
                 required
                 className="input-field"
               />
@@ -96,13 +103,13 @@ export default function TaskModal({ task, isOpen, onClose, onSave, onAddNote, on
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
-                placeholder="Task description..."
-                rows="3"
+                placeholder="Add details about this task..."
+                rows="4"
                 className="input-field resize-none"
               ></textarea>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Status
@@ -149,17 +156,26 @@ export default function TaskModal({ task, isOpen, onClose, onSave, onAddNote, on
               />
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex gap-3 pt-4">
               <button
                 type="submit"
-                className="btn-primary flex-1"
+                disabled={isSubmitting}
+                className="btn-primary flex-1 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {task ? 'Update Task' : 'Create Task'}
+                {isSubmitting ? (
+                  <>
+                    <Loader size={18} className="animate-spin" />
+                    Saving...
+                  </>
+                ) : (
+                  task ? 'Update Task' : 'Create Task'
+                )}
               </button>
               <button
                 type="button"
                 onClick={onClose}
-                className="btn-secondary flex-1"
+                disabled={isSubmitting}
+                className="btn-secondary flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Cancel
               </button>
@@ -169,7 +185,7 @@ export default function TaskModal({ task, isOpen, onClose, onSave, onAddNote, on
           {/* Notes Section */}
           {task && (
             <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                 Notes
               </h3>
 
@@ -189,6 +205,7 @@ export default function TaskModal({ task, isOpen, onClose, onSave, onAddNote, on
                 <button
                   onClick={handleAddNote}
                   className="btn-primary px-4"
+                  title="Add note"
                 >
                   <Plus size={20} />
                 </button>
@@ -199,24 +216,25 @@ export default function TaskModal({ task, isOpen, onClose, onSave, onAddNote, on
                   task.notes.map((note, index) => (
                     <div
                       key={index}
-                      className="flex justify-between items-start bg-gray-100 dark:bg-gray-700 p-3 rounded-lg"
+                      className="flex justify-between items-start bg-gray-50 dark:bg-gray-700 p-4 rounded-lg border border-gray-200 dark:border-gray-600"
                     >
-                      <div className="flex-1">
-                        <p className="text-gray-800 dark:text-gray-200">{note.text}</p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      <div className="flex-1 min-w-0">
+                        <p className="text-gray-800 dark:text-gray-200 break-words">{note.text}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
                           {formatDate(note.createdAt)}
                         </p>
                       </div>
                       <button
                         onClick={() => onDeleteNote(note._id)}
-                        className="p-1 hover:bg-red-500 hover:text-white rounded transition ml-2"
+                        className="flex-shrink-0 p-2 hover:bg-red-600 hover:text-white rounded-lg transition ml-2"
+                        title="Delete note"
                       >
                         <Trash2 size={16} />
                       </button>
                     </div>
                   ))
                 ) : (
-                  <p className="text-gray-500 dark:text-gray-400 text-sm">No notes yet</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-sm text-center py-4">No notes yet</p>
                 )}
               </div>
             </div>

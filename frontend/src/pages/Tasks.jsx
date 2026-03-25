@@ -23,6 +23,10 @@ export default function Tasks() {
   const [sortOrder, setSortOrder] = useState(searchParams.get('sortOrder') || 'asc');
   const [page, setPage] = useState(parseInt(searchParams.get('page')) || 1);
 
+  useEffect(() => {
+    document.title = 'Tasks | TaskFlow';
+  }, []);
+
   // Fetch tasks
   const fetchTasks = useCallback(
     async (newPage = 1) => {
@@ -165,23 +169,23 @@ export default function Tasks() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-8">
       <div className="container">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-100">Tasks</h1>
-          <button onClick={handleCreateTask} className="btn-primary flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">Tasks</h1>
+          <button onClick={handleCreateTask} className="btn-primary flex items-center gap-2 w-full sm:w-auto justify-center">
             <Plus size={20} />
             New Task
           </button>
         </div>
 
         {/* Filters */}
-        <div className="card mb-6 p-6 space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="card mb-6 space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {/* Search */}
             <div className="relative">
-              <Search className="absolute left-3 top-3 text-gray-400" size={20} />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" size={18} />
               <input
                 type="text"
                 placeholder="Search tasks..."
@@ -259,7 +263,7 @@ export default function Tasks() {
           </div>
         ) : tasks.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-500 dark:text-gray-400 text-lg">No tasks found</p>
+            <p className="text-gray-600 dark:text-gray-400 text-lg">No tasks found</p>
             <button
               onClick={handleCreateTask}
               className="btn-primary mt-4 inline-flex items-center gap-2"
@@ -289,17 +293,17 @@ export default function Tasks() {
                 <button
                   onClick={() => fetchTasks(page - 1)}
                   disabled={page === 1}
-                  className="btn-secondary disabled:opacity-50"
+                  className="btn-secondary disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Previous
                 </button>
-                <span className="text-gray-700 dark:text-gray-300">
+                <span className="text-gray-700 dark:text-gray-300 font-medium">
                   Page {page} of {pagination.pages}
                 </span>
                 <button
                   onClick={() => fetchTasks(page + 1)}
                   disabled={page === pagination.pages}
-                  className="btn-secondary disabled:opacity-50"
+                  className="btn-secondary disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Next
                 </button>
