@@ -18,7 +18,7 @@ app.use(cors({
   origin: function (origin, callback) {
     const allowed = [
       'https://task-manager-mu-rose.vercel.app',
-      'http://localhost:5173',
+      'http://localhost:3000',
     ];
     if (!origin || allowed.includes(origin)) {
       callback(null, true);
